@@ -22,5 +22,21 @@ public class SmartParkingBoyTest {
         assertEquals(ticket.getParkingLotNumber(), 1);
     }
 
+    @Test
+    void should_return_ticket_and_lotNumber2_when_lot2_has_more_emptyPosition_given_a_car() {
+        //Given
+        smartParkingBoy smartParkingBoy = new smartParkingBoy();
+        ParkingLot firstParkingLot = new ParkingLot(9, 1);
+        ParkingLot secondParkingLot = new ParkingLot(10, 2);
+        smartParkingBoy.addParkingLots(firstParkingLot);
+        smartParkingBoy.addParkingLots(secondParkingLot);
+        Car car = new Car();
+        //When
+        Ticket ticket = smartParkingBoy.park(car);
+        //Then
+        assertNotNull(ticket);
+        assertEquals(ticket.getParkingLotNumber(), 2);
+    }
+
 
 }

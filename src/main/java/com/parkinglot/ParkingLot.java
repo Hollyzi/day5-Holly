@@ -29,7 +29,7 @@ public class ParkingLot {
         return number;
     }
 
-    public Integer getEmptyPosition() {
+    public int getEmptyPosition() {
         return emptyPosition;
     }
 

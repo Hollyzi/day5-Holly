@@ -7,10 +7,12 @@ import java.util.stream.Collectors;
 public class ParkingBoy {
     private List<ParkingLot> parkingLots = new ArrayList<>();
 
-    public static final String FULL_MESSAGE = "No available position";
-
     public void addParkingLots(ParkingLot parkingLot) {
         parkingLots.add(parkingLot);
+    }
+
+    public List<ParkingLot> getParkingLots() {
+        return parkingLots;
     }
 
     public Ticket park(Car car) {
