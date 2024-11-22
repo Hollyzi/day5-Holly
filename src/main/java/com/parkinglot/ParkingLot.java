@@ -7,7 +7,6 @@ public class ParkingLot {
     private Map<Ticket, Car> parkingRecords = new HashMap<>();
     private Integer capacity;
     private Integer number;
-    public static final String FULL_MESSAGE = "No available position";
 
 
     public ParkingLot(Integer capacity) {
@@ -28,7 +27,7 @@ public class ParkingLot {
 
     public Ticket park(Car car) {
         if(capacity==0)
-            throw new Error(FULL_MESSAGE);
+            throw new FullException();
         this.capacity--;
             Ticket ticket = new Ticket();
             parkingRecords.put(ticket, car);

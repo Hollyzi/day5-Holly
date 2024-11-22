@@ -180,11 +180,8 @@ public class ParkingBoyTest {
         parkingBoy.addParkingLots(secondParkingLot);
         Car car = new Car();
         //When
-        try {
-            parkingBoy.park(car);
-        } catch (Error error) {
-            assertTrue(error.getMessage().contains("No available position"));
-        }
+        FullException fullException=assertThrows(FullException.class,()->parkingBoy.park(car));
+        assertEquals("No available position",fullException.getMessage());
     }
 
 }

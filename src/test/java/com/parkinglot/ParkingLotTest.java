@@ -86,11 +86,8 @@ public class ParkingLotTest {
         ParkingLot parkingLot = new ParkingLot(0);
         Car car = new Car();
         //When
-        try {
-            parkingLot.park(car);
-        } catch (Error error) {
-            assertTrue(error.getMessage().contains("No available position"));
-        }
+        FullException fullException=assertThrows(FullException.class,()->parkingLot.park(car));
+        assertEquals("No available position",fullException.getMessage());
     }
 
     private String systemOut() {
