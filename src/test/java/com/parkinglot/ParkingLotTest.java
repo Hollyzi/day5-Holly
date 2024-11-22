@@ -68,6 +68,20 @@ public class ParkingLotTest {
 
     }
 
+    @Test
+    void should_do_nothing_when_fetch_given_a_used_ticket(){
+    //Given
+        ParkingLot parkingLot = new ParkingLot();
+        Car car = new Car();
+        Ticket usedTicket = parkingLot.park(car);
+
+    //When
+        parkingLot.fetch(usedTicket);
+        Car fetchResult=parkingLot.fetch(usedTicket);
+    //Then
+        assertNull(fetchResult);
+    }
+
 
 
 }
