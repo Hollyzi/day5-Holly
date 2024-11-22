@@ -141,4 +141,18 @@ public class ParkingBoyTest {
         assertEquals(fetchSecondCar,secondCar);
     }
 
+    @Test
+    void should_return_error_when_parkingBoy_fetch_given_a_wrong_ticket() {
+        //Given
+        ParkingLot parkingLot = new ParkingLot(10);
+        ParkingBoy parkingBoy = new ParkingBoy();
+        parkingBoy.addParkingLots(parkingLot);
+        Ticket wrongTicket = new Ticket();
+        //When
+        UnrecogniazedParkingTicketException exception
+                = assertThrows(UnrecogniazedParkingTicketException.class,()->parkingBoy.fetch(wrongTicket));
+        assertEquals("Unrecogniazed parking ticket.",exception.getMessage());
+        //Then
+    }
+
 }
