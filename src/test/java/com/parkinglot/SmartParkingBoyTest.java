@@ -8,7 +8,7 @@ public class SmartParkingBoyTest {
     @Test
     void should_return_ticket_and_lotNumber1_when_two_parkingLots_emptyPosition_same_given_a_car() {
         //Given
-        smartParkingBoy smartParkingBoy = new smartParkingBoy();
+        SmartParkingBoy smartParkingBoy = new SmartParkingBoy();
         ParkingLot firstParkingLot = new ParkingLot(10, 1);
         ParkingLot secondParkingLot = new ParkingLot(10, 2);
         smartParkingBoy.addParkingLots(firstParkingLot);
@@ -24,7 +24,7 @@ public class SmartParkingBoyTest {
     @Test
     void should_return_ticket_and_lotNumber2_when_lot2_has_more_emptyPosition_given_a_car() {
         //Given
-        smartParkingBoy smartParkingBoy = new smartParkingBoy();
+        SmartParkingBoy smartParkingBoy = new SmartParkingBoy();
         ParkingLot firstParkingLot = new ParkingLot(9, 1);
         ParkingLot secondParkingLot = new ParkingLot(10, 2);
         smartParkingBoy.addParkingLots(firstParkingLot);
@@ -40,7 +40,7 @@ public class SmartParkingBoyTest {
     @Test
     void should_return_correct_car_when_smartParkingBoy_fetch_twice_in_each_lot_given_ticket() {
         //Given
-        smartParkingBoy smartParkingBoy = new smartParkingBoy();
+        SmartParkingBoy smartParkingBoy = new SmartParkingBoy();
         ParkingLot firstParkingLot = new ParkingLot(1, 1);
         ParkingLot secondParkingLot = new ParkingLot(10, 2);
         smartParkingBoy.addParkingLots(firstParkingLot);
@@ -61,7 +61,7 @@ public class SmartParkingBoyTest {
     void should_return_error_when_smartParkingBoy_fetch_given_a_wrong_ticket() {
         //Given
         ParkingLot parkingLot = new ParkingLot(10);
-        smartParkingBoy smartParkingBoy = new smartParkingBoy();
+        SmartParkingBoy smartParkingBoy = new SmartParkingBoy();
         smartParkingBoy.addParkingLots(parkingLot);
         Ticket wrongTicket = new Ticket();
         //When
@@ -75,7 +75,7 @@ public class SmartParkingBoyTest {
     void should_return_error_when_smartParkingBoy_fetch_given_a_used_ticket() {
         //Given
         ParkingLot parkingLot = new ParkingLot(10);
-        smartParkingBoy smartParkingBoy = new smartParkingBoy();
+        SmartParkingBoy smartParkingBoy = new SmartParkingBoy();
         smartParkingBoy.addParkingLots(parkingLot);
         Car car = new Car();
         Ticket usedTicket = parkingLot.park(car);
@@ -86,5 +86,18 @@ public class SmartParkingBoyTest {
         assertEquals("Unrecogniazed parking ticket.", exception.getMessage());
     }
 
+    @Test
+    void should_return_full_message_when_two_parkingLots_both_full_smartParkingBoy_given_car() {
+        //Given
+        SmartParkingBoy smartParkingBoy = new SmartParkingBoy();
+        ParkingLot firstParkingLot = new ParkingLot(0, 1);
+        ParkingLot secondParkingLot = new ParkingLot(0, 2);
+        smartParkingBoy.addParkingLots(firstParkingLot);
+        smartParkingBoy.addParkingLots(secondParkingLot);
+        Car car = new Car();
+        //When
+        FullException fullException=assertThrows(FullException.class,()->smartParkingBoy.park(car));
+        assertEquals("No available position",fullException.getMessage());
+    }
 
 }

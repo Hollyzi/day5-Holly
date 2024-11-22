@@ -4,7 +4,7 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class smartParkingBoy extends ParkingBoy{
+public class SmartParkingBoy extends ParkingBoy{
     @Override
     public Ticket park(Car car) {
         List<ParkingLot> isAvailableParkingLots = getParkingLots().stream()
