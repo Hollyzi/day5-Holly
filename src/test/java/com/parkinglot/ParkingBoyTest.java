@@ -89,4 +89,20 @@ public class ParkingBoyTest {
         }
     }
 
+    @Test
+    void should_return_ticket_and_potNumber_when_first_parkingLot_is_not_full_given_a_car(){
+    //Given
+        ParkingBoy parkingBoy = new ParkingBoy();
+        ParkingLot firstParkingLot=new ParkingLot(0,1);
+        ParkingLot secondParkingLot=new ParkingLot(0,2);
+        parkingBoy.addParkingLots(firstParkingLot);
+        parkingBoy.addParkingLots(secondParkingLot);
+        Car car = new Car();
+    //When
+        Ticket ticket=parkingBoy.park(car);
+    //Then
+        assertNotNull(ticket);
+        assertEquals(ticket.getParkingLotNumber(),1);
+    }
+
 }

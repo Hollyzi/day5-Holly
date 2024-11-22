@@ -7,9 +7,18 @@ public class ParkingLot {
     public static final String FULL_MESSAGE = "The parkinglot is full";
     private Map<Ticket, Car> parkingRecords = new HashMap<>();
     private Integer capacity;
+    private Integer number;
 
     public ParkingLot(Integer capacity) {
         this.capacity = capacity;
+    }
+    public ParkingLot(Integer capacity,Integer number) {
+        this.capacity = capacity;
+        this.number=number;
+    }
+
+    public Integer getCapacity() {
+        return capacity;
     }
 
     public Ticket park(Car car) {
@@ -17,6 +26,7 @@ public class ParkingLot {
             this.capacity++;
             Ticket ticket = new Ticket();
             parkingRecords.put(ticket, car);
+            ticket.setParkingLotNumber(this.number);
             return ticket;
         }
         throw new Error(FULL_MESSAGE);
