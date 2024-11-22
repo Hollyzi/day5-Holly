@@ -79,13 +79,13 @@ public class ParkingBoyTest {
         //Given
         ParkingBoy parkingBoy = new ParkingBoy();
         ParkingLot parkingLot = new ParkingLot(0);
-        parkingBoy.setParkingLot(parkingLot);
+        parkingBoy.addParkingLots(parkingLot);
         Car car = new Car();
         //When
         try {
             parkingBoy.park(car);
         } catch (Error error) {
-            assertTrue(error.getMessage().contains("The parkinglot is full"));
+            assertTrue(error.getMessage().contains("No available position"));
         }
     }
 
@@ -168,6 +168,23 @@ public class ParkingBoyTest {
         UnrecogniazedParkingTicketException exception
                 = assertThrows(UnrecogniazedParkingTicketException.class, () -> parkingBoy.fetch(usedTicket));
         assertEquals("Unrecogniazed parking ticket.", exception.getMessage());
+    }
+
+    @Test
+    void should_return_full_message_when_two_parkingLots_both_full_given_car() {
+        //Given
+        ParkingBoy parkingBoy = new ParkingBoy();
+        ParkingLot firstParkingLot = new ParkingLot(0, 1);
+        ParkingLot secondParkingLot = new ParkingLot(0, 2);
+        parkingBoy.addParkingLots(firstParkingLot);
+        parkingBoy.addParkingLots(secondParkingLot);
+        Car car = new Car();
+        //When
+        try {
+            parkingBoy.park(car);
+        } catch (Error error) {
+            assertTrue(error.getMessage().contains("No available position"));
+        }
     }
 
 }

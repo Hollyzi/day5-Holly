@@ -89,7 +89,7 @@ public class ParkingLotTest {
         try {
             parkingLot.park(car);
         } catch (Error error) {
-            assertTrue(error.getMessage().contains("The parkinglot is full"));
+            assertTrue(error.getMessage().contains("No available position"));
         }
     }
 
