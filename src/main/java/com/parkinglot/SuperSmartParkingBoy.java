@@ -4,13 +4,13 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class SuperSmartParkingBoy extends ParkingBoy{
+public class SuperSmartParkingBoy extends ParkingBoy {
     private float availablePositionRate;
 
     @Override
     public Ticket park(Car car) {
         List<ParkingLot> isAvailableParkingLots = getParkingLots().stream()
-                .filter(parkingLot -> parkingLot.getEmptyPosition() >0)
+                .filter(parkingLot -> parkingLot.getEmptyPosition() > 0)
                 .sorted(Comparator.comparing(ParkingLot::getAvailablePositionRate).reversed())
                 .collect(Collectors.toList());
         if (isAvailableParkingLots.size() != 0) {
