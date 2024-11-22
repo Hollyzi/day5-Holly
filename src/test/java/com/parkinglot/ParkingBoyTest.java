@@ -9,6 +9,8 @@ public class ParkingBoyTest {
     void should_return_ticket_when_parkingboy_given_a_car() {
         //Given
         ParkingBoy parkingBoy = new ParkingBoy();
+        ParkingLot parkingLot=new ParkingLot(10);
+        parkingBoy.addParkingLots(parkingLot);
         Car car = new Car();
         //When
         Ticket ticket = parkingBoy.park(car);
@@ -21,6 +23,8 @@ public class ParkingBoyTest {
     void should_return_car_when_parking_boy_fetch_car_given_ticket() {
         //Given
         ParkingBoy parkingBoy = new ParkingBoy();
+        ParkingLot parkingLot=new ParkingLot(10);
+        parkingBoy.addParkingLots(parkingLot);
         Car car = new Car();
         //When
         Ticket ticket = parkingBoy.park(car);
@@ -34,6 +38,8 @@ public class ParkingBoyTest {
     void should_return_right_car_when_parkingBoy_fetch_twice_car_given_ticket() {
         //Given
         ParkingBoy parkingBoy = new ParkingBoy();
+        ParkingLot parkingLot=new ParkingLot(10);
+        parkingBoy.addParkingLots(parkingLot);
         Car firstCar = new Car();
         Car secondCar = new Car();
         //When
@@ -51,6 +57,8 @@ public class ParkingBoyTest {
     void should_return_error_when_fetch_given_a_wrong_ticket() {
         //Given
         ParkingBoy parkingBoy = new ParkingBoy();
+        ParkingLot parkingLot=new ParkingLot(10);
+        parkingBoy.addParkingLots(parkingLot);
         Ticket wrongTicket = new Ticket();
         //When
         UnrecogniazedParkingTicketException exception
@@ -65,6 +73,8 @@ public class ParkingBoyTest {
     void should_return_error_when_parkingboy_fetch_given_a_used_ticket() {
         //Given
         ParkingBoy parkingBoy = new ParkingBoy();
+        ParkingLot parkingLot=new ParkingLot(10);
+        parkingBoy.addParkingLots(parkingLot);
         Car car = new Car();
         Ticket usedTicket = parkingBoy.park(car);
         parkingBoy.fetch(usedTicket);
@@ -82,11 +92,8 @@ public class ParkingBoyTest {
         parkingBoy.addParkingLots(parkingLot);
         Car car = new Car();
         //When
-        try {
-            parkingBoy.park(car);
-        } catch (Error error) {
-            assertTrue(error.getMessage().contains("No available position"));
-        }
+        FullException fullException=assertThrows(FullException.class,()->parkingBoy.park(car));
+        assertEquals("No available position",fullException.getMessage());
     }
 
     @Test
