@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class ParkingLot {
+    public static final String FULL_MESSAGE = "The parkinglot is full";
     private Map<Ticket, Car> parkingRecords = new HashMap<>();
     private Integer capacity;
 
@@ -18,13 +19,13 @@ public class ParkingLot {
             parkingRecords.put(ticket, car);
             return ticket;
         }
-        return null;
+        throw new Error(FULL_MESSAGE);
 
     }
 
     public Car fetch(Ticket ticket) {
-        if (parkingRecords.get(ticket) == null) {
-            throw new Error("Unrecogniazed parking ticket");
+        if (!parkingRecords.containsKey(ticket)) {
+            throw new UnrecogniazedParkingTicketException();
         }
         return parkingRecords.remove(ticket);
     }

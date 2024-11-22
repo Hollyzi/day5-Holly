@@ -99,12 +99,22 @@ public class ParkingLotTest {
         ParkingLot parkingLot = new ParkingLot(0);
         Ticket wrongTicket = new Ticket();
         //When
-        try {
-            parkingLot.fetch(wrongTicket);
-        } catch (Error error) {
-            assertTrue(error.getMessage().contains("Unrecogniazed parking ticket"));
-        }
+        UnrecogniazedParkingTicketException exception
+                = assertThrows(UnrecogniazedParkingTicketException.class,()->parkingLot.fetch(wrongTicket));
+        assertEquals("Unrecogniazed parking ticket.",exception.getMessage());
         //Then
+    }
+    @Test
+    void should_return_error_when_fetch_given_a_used_ticket() {
+        //Given
+        ParkingLot parkingLot = new ParkingLot(0);
+        Car car = new Car();
+        Ticket usedTicket = parkingLot.park(car);
+        parkingLot.fetch(usedTicket);
+        //When
+        UnrecogniazedParkingTicketException exception
+                = assertThrows(UnrecogniazedParkingTicketException.class,()->parkingLot.fetch(usedTicket));
+        assertEquals("Unrecogniazed parking ticket.",exception.getMessage());
     }
 
     @Test
