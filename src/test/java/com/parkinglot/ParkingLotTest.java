@@ -102,11 +102,22 @@ public class ParkingLotTest {
         try {
             parkingLot.fetch(wrongTicket);
         } catch (Error error) {
-            assertTrue(error.getMessage().contains("Unrecogniazed parking ticket"))
-            ;
+            assertTrue(error.getMessage().contains("Unrecogniazed parking ticket"));
         }
         //Then
+    }
 
+    @Test
+    void should_return_full_message_when_parklot_is_full_given_car() {
+        //Given
+        ParkingLot parkingLot = new ParkingLot(10);
+        Car car = new Car();
+        //When
+        try {
+            parkingLot.park(car);
+        } catch (Error error) {
+            assertTrue(error.getMessage().contains("The parkinglot is full"));
+        }
     }
 
     private String systemOut() {
