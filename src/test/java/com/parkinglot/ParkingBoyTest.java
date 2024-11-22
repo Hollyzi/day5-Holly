@@ -60,4 +60,33 @@ public class ParkingBoyTest {
         //Then
 
     }
+
+    @Test
+    void should_return_error_when_parkingboy_fetch_given_a_used_ticket() {
+        //Given
+        ParkingBoy parkingBoy = new ParkingBoy();
+        Car car = new Car();
+        Ticket usedTicket = parkingBoy.park(car);
+        parkingBoy.fetch(usedTicket);
+        //When
+        UnrecogniazedParkingTicketException exception
+                = assertThrows(UnrecogniazedParkingTicketException.class,()->parkingBoy.fetch(usedTicket));
+        assertEquals("Unrecogniazed parking ticket.",exception.getMessage());
+    }
+
+    @Test
+    void should_return_full_message_when_parkingBoy_is_full_given_car() {
+        //Given
+        ParkingBoy parkingBoy = new ParkingBoy();
+        ParkingLot parkingLot=new ParkingLot(10);
+        parkingBoy.setParkingLot(parkingLot);
+        Car car = new Car();
+        //When
+        try {
+            parkingBoy.park(car);
+        } catch (Error error) {
+            assertTrue(error.getMessage().contains("The parkinglot is full"));
+        }
+    }
+
 }
