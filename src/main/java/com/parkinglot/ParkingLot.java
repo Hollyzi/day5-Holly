@@ -14,7 +14,7 @@ public class ParkingLot {
     public ParkingLot(Integer capacity) {
         this.capacity = capacity;
         this.emptyPosition = capacity;
-        this.availablePositionRate=(emptyPosition / capacity);
+        this.availablePositionRate = (emptyPosition / capacity);
 
     }
 
@@ -22,7 +22,7 @@ public class ParkingLot {
         this.capacity = capacity;
         this.number = number;
         this.emptyPosition = capacity;
-        this.availablePositionRate=(emptyPosition / capacity);
+        this.availablePositionRate = (emptyPosition / capacity);
 
     }
 
@@ -40,7 +40,7 @@ public class ParkingLot {
 
     public Float getAvailablePositionRate() {
         if ((capacity != 0) && (emptyPosition != 0))
-            return  this.availablePositionRate;
+            return this.availablePositionRate;
         return null;
     }
 
@@ -48,7 +48,7 @@ public class ParkingLot {
         if (capacity == 0 || emptyPosition == 0)
             throw new FullException();
         this.emptyPosition--;
-        this.availablePositionRate=(emptyPosition.floatValue() / capacity);
+        this.availablePositionRate = (emptyPosition.floatValue() / capacity);
         Ticket ticket = new Ticket();
         parkingRecords.put(ticket, car);
         ticket.setParkingLotNumber(this.number);

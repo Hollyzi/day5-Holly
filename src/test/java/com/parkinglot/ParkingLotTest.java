@@ -63,10 +63,11 @@ public class ParkingLotTest {
         Ticket wrongTicket = new Ticket();
         //When
         UnrecogniazedParkingTicketException exception
-                = assertThrows(UnrecogniazedParkingTicketException.class,()->parkingLot.fetch(wrongTicket));
-        assertEquals("Unrecogniazed parking ticket.",exception.getMessage());
+                = assertThrows(UnrecogniazedParkingTicketException.class, () -> parkingLot.fetch(wrongTicket));
+        assertEquals("Unrecogniazed parking ticket.", exception.getMessage());
         //Then
     }
+
     @Test
     void should_return_error_when_fetch_given_a_used_ticket() {
         //Given
@@ -76,8 +77,8 @@ public class ParkingLotTest {
         parkingLot.fetch(usedTicket);
         //When
         UnrecogniazedParkingTicketException exception
-                = assertThrows(UnrecogniazedParkingTicketException.class,()->parkingLot.fetch(usedTicket));
-        assertEquals("Unrecogniazed parking ticket.",exception.getMessage());
+                = assertThrows(UnrecogniazedParkingTicketException.class, () -> parkingLot.fetch(usedTicket));
+        assertEquals("Unrecogniazed parking ticket.", exception.getMessage());
     }
 
     @Test
@@ -86,8 +87,8 @@ public class ParkingLotTest {
         ParkingLot parkingLot = new ParkingLot(0);
         Car car = new Car();
         //When
-        FullException fullException=assertThrows(FullException.class,()->parkingLot.park(car));
-        assertEquals("No available position",fullException.getMessage());
+        FullException fullException = assertThrows(FullException.class, () -> parkingLot.park(car));
+        assertEquals("No available position", fullException.getMessage());
     }
 
     private String systemOut() {

@@ -17,7 +17,7 @@ public class ParkingBoy {
 
     public Ticket park(Car car) {
         List<ParkingLot> isAvailableParkingLots = parkingLots.stream()
-                .filter(parkingLot -> parkingLot.getEmptyPosition() >0)
+                .filter(parkingLot -> parkingLot.getEmptyPosition() > 0)
                 .collect(Collectors.toList());
         if (isAvailableParkingLots.size() != 0) {
             Ticket park = isAvailableParkingLots.get(0).park(car);

@@ -96,8 +96,8 @@ public class SmartParkingBoyTest {
         smartParkingBoy.addParkingLots(secondParkingLot);
         Car car = new Car();
         //When
-        FullException fullException=assertThrows(FullException.class,()->smartParkingBoy.park(car));
-        assertEquals("No available position",fullException.getMessage());
+        FullException fullException = assertThrows(FullException.class, () -> smartParkingBoy.park(car));
+        assertEquals("No available position", fullException.getMessage());
     }
 
 }
