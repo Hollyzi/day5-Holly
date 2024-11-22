@@ -19,7 +19,7 @@ public class ParkingBoy {
     }
 
     public Ticket park(Car car) {
-        List<ParkingLot> isAvailableParkingLots = parkingLots.stream().filter(parkingLot -> parkingLot.getCapacity() <= 10).collect(Collectors.toList());
+        List<ParkingLot> isAvailableParkingLots = parkingLots.stream().filter(parkingLot -> parkingLot.getCapacity() < 10).collect(Collectors.toList());
         return isAvailableParkingLots.get(0).park(car);
 //        return parkingLot.park(car);
     }
