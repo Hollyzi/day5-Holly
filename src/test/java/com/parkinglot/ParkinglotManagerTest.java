@@ -2,8 +2,7 @@ package com.parkinglot;
 
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class ParkinglotManagerTest {
     @Test
@@ -55,4 +54,21 @@ public class ParkinglotManagerTest {
         assertEquals(firstCar, fetchFirstCar);
         assertEquals(secondCar, fetchSecondCar);
     }
+
+    @Test
+    void should_return_error_when_fetch_given_a_wrong_ticket_use_strategy() {
+        //Given
+        ParkinglotManager parkinglotManager = new ParkinglotManager();
+        parkinglotManager.addParkingLot(new ParkingLot(10));
+        ParkingStrategy parkingBoyStrategy = new ParkingBoyStrategy();
+        //When
+        parkinglotManager.setParkingStrategy(parkingBoyStrategy);
+        Car car = new Car();
+        parkinglotManager.parkingStrategyMethod(car, parkinglotManager.getParkingLots());
+        //Then
+        UnrecogniazedParkingTicketException exception
+                = assertThrows(UnrecogniazedParkingTicketException.class,()->parkinglotManager.fetchStrategyMethod(new Ticket(),parkinglotManager.getParkingLots()));
+        assertEquals("Unrecogniazed parking ticket.", exception.getMessage());
+    }
+
 }
