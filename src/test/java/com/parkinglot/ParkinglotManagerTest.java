@@ -6,7 +6,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class ParkinglotManagerTest {
     @Test
-    void should_return_ticket_when_parkingboy_given_a_car_use_strategy() {
+    void should_return_ticket_when_parkingboy_given_a_car_use_parkingBoy_strategy() {
         //Given
         ParkinglotManager parkinglotManager = new ParkinglotManager();
         parkinglotManager.addParkingLot(new ParkingLot(10));
@@ -19,7 +19,7 @@ public class ParkinglotManagerTest {
     }
 
     @Test
-    void should_return_car_when_parking_boy_fetch_car_given_ticket_use_strategy() {
+    void should_return_car_when_parking_boy_fetch_car_given_ticket_use_parkingBoy_strategy() {
         //Given
         ParkinglotManager parkinglotManager = new ParkinglotManager();
         parkinglotManager.addParkingLot(new ParkingLot(10));
@@ -34,7 +34,7 @@ public class ParkinglotManagerTest {
     }
 
     @Test
-    void should_return_right_car_when_parkingBoy_fetch_twice_car_given_ticket_use_strategy() {
+    void should_return_right_car_when_parkingBoy_fetch_twice_car_given_ticket_use_parkingBoy_strategy() {
         //Given
         ParkinglotManager parkinglotManager = new ParkinglotManager();
         ParkingLot firstParkinglot = new ParkingLot(10);
@@ -56,7 +56,7 @@ public class ParkinglotManagerTest {
     }
 
     @Test
-    void should_return_error_when_fetch_given_a_wrong_ticket_use_strategy() {
+    void should_return_error_when_fetch_given_a_wrong_ticket_use_parkingBoy_strategy() {
         //Given
         ParkinglotManager parkinglotManager = new ParkinglotManager();
         parkinglotManager.addParkingLot(new ParkingLot(10));
@@ -72,7 +72,7 @@ public class ParkinglotManagerTest {
     }
 
     @Test
-    void should_return_error_when_parkingboy_fetch_given_a_used_ticket_use_strategy() {
+    void should_return_error_when_parkingboy_fetch_given_a_used_ticket_use_parkingBoy_strategy() {
         //Given
         ParkinglotManager parkinglotManager = new ParkinglotManager();
         parkinglotManager.addParkingLot(new ParkingLot(10));
@@ -90,7 +90,7 @@ public class ParkinglotManagerTest {
 
 
     @Test
-    void should_return_full_message_when_parkingBoy_is_full_given_car_use_strategy() {
+    void should_return_full_message_when_parkingBoy_is_full_given_car_use_parkingBoy_strategy() {
         //Given
         ParkinglotManager parkinglotManager = new ParkinglotManager();
         parkinglotManager.addParkingLot(new ParkingLot(0));
@@ -104,7 +104,7 @@ public class ParkinglotManagerTest {
     }
 
     @Test
-    void should_return_ticket_and_lotNumber1_when_first_parkingLot_is_not_full_given_a_car_use_strategy() {
+    void should_return_ticket_and_lotNumber1_when_first_parkingLot_is_not_full_given_a_car_use_parkingBoy_strategy() {
         //Given
         ParkinglotManager parkinglotManager = new ParkinglotManager();
         ParkingLot firstParkingLot = new ParkingLot(10, 1);
@@ -121,7 +121,7 @@ public class ParkinglotManagerTest {
     }
 
     @Test
-    void should_return_ticket_and_lotNumber2_when_first_parkingLot_is_full_given_a_car_use_strategy() {
+    void should_return_ticket_and_lotNumber2_when_first_parkingLot_is_full_given_a_car_use_parkingBoy_strategy() {
         //Given
         ParkinglotManager parkinglotManager = new ParkinglotManager();
         ParkingLot firstParkingLot = new ParkingLot(0, 1);
@@ -138,7 +138,7 @@ public class ParkinglotManagerTest {
     }
 
     @Test
-    void should_return_correct_car_when_fetch_twice_in_each_lot_given_ticket_use_strategy() {
+    void should_return_correct_car_when_fetch_twice_in_each_lot_given_ticket_use_parkingBoy_strategy() {
         //Given
         ParkinglotManager parkinglotManager = new ParkinglotManager();
         ParkingLot firstParkinglot = new ParkingLot(10,1);
@@ -148,6 +148,63 @@ public class ParkinglotManagerTest {
         ParkingStrategy parkingBoyStrategy = new ParkingBoyStrategy();
         //When
         parkinglotManager.setParkingStrategy(parkingBoyStrategy);
+        Car firstCar = new Car();
+        Car secondCar = new Car();
+        Ticket firstTicket = parkinglotManager.parkingStrategyMethod(firstCar, parkinglotManager.getParkingLots());
+        Ticket secondTicket = parkinglotManager.parkingStrategyMethod(secondCar, parkinglotManager.getParkingLots());
+        Car fetchFirstCar = parkinglotManager.fetchStrategyMethod(firstTicket, parkinglotManager.getParkingLots());
+        Car fetchSecondCar = parkinglotManager.fetchStrategyMethod(secondTicket, parkinglotManager.getParkingLots());
+        //Then
+        assertEquals(firstCar, fetchFirstCar);
+        assertEquals(secondCar, fetchSecondCar);
+    }
+
+    @Test
+    void should_return_ticket_and_lotNumber1_when_two_parkingLots_emptyPosition_same_given_a_car_use_smartParkingboy_strategy() {
+        //Given
+        ParkinglotManager parkinglotManager = new ParkinglotManager();
+        ParkingLot firstParkingLot = new ParkingLot(10, 1);
+        ParkingLot secondParkingLot = new ParkingLot(10, 2);
+        parkinglotManager.addParkingLot(firstParkingLot);
+        parkinglotManager.addParkingLot(secondParkingLot);
+        ParkingStrategy smartParkingBoyStrategy = new SmartParkingBoyStrategy();
+        //When
+        parkinglotManager.setParkingStrategy(smartParkingBoyStrategy);
+        Car car = new Car();
+        Ticket ticket = parkinglotManager.parkingStrategyMethod(car, parkinglotManager.getParkingLots());
+        //Then
+        assertEquals(ticket.getParkingLotNumber(), 1);
+    }
+
+    @Test
+    void should_return_ticket_and_lotNumber2_when_lot2_has_more_emptyPosition_given_a_car_use_smartParkingboy_strategy() {
+        //Given
+        ParkinglotManager parkinglotManager = new ParkinglotManager();
+        ParkingLot firstParkingLot = new ParkingLot(10, 1);
+        ParkingLot secondParkingLot = new ParkingLot(10, 2);
+        parkinglotManager.addParkingLot(firstParkingLot);
+        parkinglotManager.addParkingLot(secondParkingLot);
+        ParkingStrategy smartParkingBoyStrategy = new SmartParkingBoyStrategy();
+        //When
+        parkinglotManager.setParkingStrategy(smartParkingBoyStrategy);
+        parkinglotManager.parkingStrategyMethod(new Car(),parkinglotManager.getParkingLots());
+        Car car = new Car();
+        Ticket ticket = parkinglotManager.parkingStrategyMethod(car, parkinglotManager.getParkingLots());
+        //Then
+        assertEquals(ticket.getParkingLotNumber(), 2);
+    }
+
+    @Test
+    void should_return_correct_car_when_fetch_twice_in_each_lot_given_ticket_use_smartParkingBoy_strategy() {
+        //Given
+        ParkinglotManager parkinglotManager = new ParkinglotManager();
+        ParkingLot firstParkinglot = new ParkingLot(10,1);
+        ParkingLot secondParkinglot = new ParkingLot(10,2);
+        parkinglotManager.addParkingLot(firstParkinglot);
+        parkinglotManager.addParkingLot(secondParkinglot);
+        ParkingStrategy smartParkingBoyStrategy = new SmartParkingBoyStrategy();
+        //When
+        parkinglotManager.setParkingStrategy(smartParkingBoyStrategy);
         Car firstCar = new Car();
         Car secondCar = new Car();
         Ticket firstTicket = parkinglotManager.parkingStrategyMethod(firstCar, parkinglotManager.getParkingLots());

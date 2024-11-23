@@ -1,6 +1,7 @@
 package com.parkinglot;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -25,14 +26,16 @@ public class ParkinglotManager {
     }
 
     public Car fetchStrategyMethod(Ticket ticket, List<ParkingLot> parkingLots) {
-        return parkingStrategy.fetchStrategyMethod(ticket,parkingLots);
+        return parkingLots.stream()
+                .filter(parkingLot -> parkingLot.getNumber() == ticket.getParkingLotNumber())
+                .findFirst()
+                .orElse(null).fetch(ticket);
     }
+
 }
 
 interface ParkingStrategy {
-    public Ticket parkingStrategyMethod(Car car, List<ParkingLot> parkingLots);    //策略方法
-
-    Car fetchStrategyMethod(Ticket ticket,List<ParkingLot> parkingLots);
+    public Ticket parkingStrategyMethod(Car car, List<ParkingLot> parkingLots);
 }
 
 class ParkingBoyStrategy implements ParkingStrategy {
@@ -47,13 +50,19 @@ class ParkingBoyStrategy implements ParkingStrategy {
         }
         return parkingLots.get(0).park(car);
     }
+}
 
+class SmartParkingBoyStrategy implements ParkingStrategy {
     @Override
-    public Car fetchStrategyMethod(Ticket ticket, List<ParkingLot> parkingLots) {
-        return parkingLots.stream()
-                .filter(parkingLot -> parkingLot.getNumber() == ticket.getParkingLotNumber())
-                .findFirst()
-                .orElse(null).fetch(ticket);
+    public Ticket parkingStrategyMethod(Car car, List<ParkingLot> parkingLots) {
+        List<ParkingLot> isAvailableParkingLots = parkingLots.stream()
+                .filter(parkingLot -> parkingLot.getEmptyPosition() > 0)
+                .sorted(Comparator.comparing(ParkingLot::getEmptyPosition).reversed())
+                .collect(Collectors.toList());
+        if (isAvailableParkingLots.size() != 0) {
+            Ticket park = isAvailableParkingLots.get(0).park(car);
+            return park;
+        }
+        return parkingLots.get(0).park(car);
     }
-
 }
