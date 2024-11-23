@@ -28,7 +28,7 @@ public class ParkinglotManagerTest {
         parkinglotManager.setParkingStrategy(parkingBoyStrategy);
         Car car = new Car();
         Ticket ticket = parkinglotManager.parkingStrategyMethod(car, parkinglotManager.getParkingLots());
-        Car fetchCar=parkinglotManager.fetchStrategyMethod(ticket,parkinglotManager.getParkingLots());
+        Car fetchCar = parkinglotManager.fetchStrategyMethod(ticket, parkinglotManager.getParkingLots());
         //Then
         assertEquals(car, fetchCar);
     }
@@ -48,8 +48,8 @@ public class ParkinglotManagerTest {
         Car secondCar = new Car();
         Ticket firstTicket = parkinglotManager.parkingStrategyMethod(firstCar, parkinglotManager.getParkingLots());
         Ticket secondTicket = parkinglotManager.parkingStrategyMethod(secondCar, parkinglotManager.getParkingLots());
-        Car fetchFirstCar=parkinglotManager.fetchStrategyMethod(firstTicket,parkinglotManager.getParkingLots());
-        Car fetchSecondCar=parkinglotManager.fetchStrategyMethod(secondTicket,parkinglotManager.getParkingLots());
+        Car fetchFirstCar = parkinglotManager.fetchStrategyMethod(firstTicket, parkinglotManager.getParkingLots());
+        Car fetchSecondCar = parkinglotManager.fetchStrategyMethod(secondTicket, parkinglotManager.getParkingLots());
         //Then
         assertEquals(firstCar, fetchFirstCar);
         assertEquals(secondCar, fetchSecondCar);
@@ -67,7 +67,7 @@ public class ParkinglotManagerTest {
         parkinglotManager.parkingStrategyMethod(car, parkinglotManager.getParkingLots());
         //Then
         UnrecogniazedParkingTicketException exception
-                = assertThrows(UnrecogniazedParkingTicketException.class,()->parkinglotManager.fetchStrategyMethod(new Ticket(),parkinglotManager.getParkingLots()));
+                = assertThrows(UnrecogniazedParkingTicketException.class, () -> parkinglotManager.fetchStrategyMethod(new Ticket(), parkinglotManager.getParkingLots()));
         assertEquals("Unrecogniazed parking ticket.", exception.getMessage());
     }
 
@@ -81,11 +81,25 @@ public class ParkinglotManagerTest {
         parkinglotManager.setParkingStrategy(parkingBoyStrategy);
         Car car = new Car();
         Ticket ticket = parkinglotManager.parkingStrategyMethod(car, parkinglotManager.getParkingLots());
-        parkinglotManager.fetchStrategyMethod(ticket,parkinglotManager.getParkingLots());
+        parkinglotManager.fetchStrategyMethod(ticket, parkinglotManager.getParkingLots());
         //Then
         UnrecogniazedParkingTicketException exception
-                = assertThrows(UnrecogniazedParkingTicketException.class,()->parkinglotManager.fetchStrategyMethod(ticket,parkinglotManager.getParkingLots()));
+                = assertThrows(UnrecogniazedParkingTicketException.class, () -> parkinglotManager.fetchStrategyMethod(ticket, parkinglotManager.getParkingLots()));
         assertEquals("Unrecogniazed parking ticket.", exception.getMessage());
     }
 
+
+    @Test
+    void should_return_full_message_when_parkingBoy_is_full_given_car_use_strategy() {
+        //Given
+        ParkinglotManager parkinglotManager = new ParkinglotManager();
+        parkinglotManager.addParkingLot(new ParkingLot(0));
+        ParkingStrategy parkingBoyStrategy = new ParkingBoyStrategy();
+        //When
+        parkinglotManager.setParkingStrategy(parkingBoyStrategy);
+        Car car = new Car();
+        //Then
+        FullException fullException = assertThrows(FullException.class, () -> parkinglotManager.parkingStrategyMethod(car, parkinglotManager.getParkingLots()));
+        assertEquals("No available position", fullException.getMessage());
+    }
 }
