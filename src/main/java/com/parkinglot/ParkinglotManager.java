@@ -66,3 +66,18 @@ class SmartParkingBoyStrategy implements ParkingStrategy {
         return parkingLots.get(0).park(car);
     }
 }
+
+class SuperSmartParkingBoyStrategy implements ParkingStrategy {
+    @Override
+    public Ticket parkingStrategyMethod(Car car, List<ParkingLot> parkingLots) {
+        List<ParkingLot> isAvailableParkingLots = parkingLots.stream()
+                .filter(parkingLot -> parkingLot.getEmptyPosition() > 0)
+                .sorted(Comparator.comparing(ParkingLot::getAvailablePositionRate).reversed())
+                .collect(Collectors.toList());
+        if (isAvailableParkingLots.size() != 0) {
+            Ticket park = isAvailableParkingLots.get(0).park(car);
+            return park;
+        }
+        return parkingLots.get(0).park(car);
+    }
+}
