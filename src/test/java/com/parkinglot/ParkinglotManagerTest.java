@@ -71,4 +71,21 @@ public class ParkinglotManagerTest {
         assertEquals("Unrecogniazed parking ticket.", exception.getMessage());
     }
 
+    @Test
+    void should_return_error_when_parkingboy_fetch_given_a_used_ticket_use_strategy() {
+        //Given
+        ParkinglotManager parkinglotManager = new ParkinglotManager();
+        parkinglotManager.addParkingLot(new ParkingLot(10));
+        ParkingStrategy parkingBoyStrategy = new ParkingBoyStrategy();
+        //When
+        parkinglotManager.setParkingStrategy(parkingBoyStrategy);
+        Car car = new Car();
+        Ticket ticket = parkinglotManager.parkingStrategyMethod(car, parkinglotManager.getParkingLots());
+        parkinglotManager.fetchStrategyMethod(ticket,parkinglotManager.getParkingLots());
+        //Then
+        UnrecogniazedParkingTicketException exception
+                = assertThrows(UnrecogniazedParkingTicketException.class,()->parkinglotManager.fetchStrategyMethod(ticket,parkinglotManager.getParkingLots()));
+        assertEquals("Unrecogniazed parking ticket.", exception.getMessage());
+    }
+
 }
