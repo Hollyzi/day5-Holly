@@ -33,4 +33,26 @@ public class ParkinglotManagerTest {
         //Then
         assertEquals(car, fetchCar);
     }
+
+    @Test
+    void should_return_right_car_when_parkingBoy_fetch_twice_car_given_ticket_use_strategy() {
+        //Given
+        ParkinglotManager parkinglotManager = new ParkinglotManager();
+        ParkingLot firstParkinglot = new ParkingLot(10);
+        ParkingLot secondParkinglot = new ParkingLot(10);
+        parkinglotManager.addParkingLot(firstParkinglot);
+        parkinglotManager.addParkingLot(secondParkinglot);
+        ParkingStrategy parkingBoyStrategy = new ParkingBoyStrategy();
+        //When
+        parkinglotManager.setParkingStrategy(parkingBoyStrategy);
+        Car firstCar = new Car();
+        Car secondCar = new Car();
+        Ticket firstTicket = parkinglotManager.parkingStrategyMethod(firstCar, parkinglotManager.getParkingLots());
+        Ticket secondTicket = parkinglotManager.parkingStrategyMethod(secondCar, parkinglotManager.getParkingLots());
+        Car fetchFirstCar=parkinglotManager.fetchStrategyMethod(firstTicket,parkinglotManager.getParkingLots());
+        Car fetchSecondCar=parkinglotManager.fetchStrategyMethod(secondTicket,parkinglotManager.getParkingLots());
+        //Then
+        assertEquals(firstCar, fetchFirstCar);
+        assertEquals(secondCar, fetchSecondCar);
+    }
 }
