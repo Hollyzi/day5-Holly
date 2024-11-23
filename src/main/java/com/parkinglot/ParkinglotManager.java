@@ -24,15 +24,15 @@ public class ParkinglotManager {
         return parkingStrategy.parkingStrategyMethod(car, parkingLots);
     }
 
-    public Car fetchStrategyMethod(Ticket ticket) {
-        return parkingStrategy.fetchStrategyMethod(ticket);
+    public Car fetchStrategyMethod(Ticket ticket, List<ParkingLot> parkingLots) {
+        return parkingStrategy.fetchStrategyMethod(ticket,parkingLots);
     }
 }
 
 interface ParkingStrategy {
     public Ticket parkingStrategyMethod(Car car, List<ParkingLot> parkingLots);    //策略方法
 
-    Car fetchStrategyMethod(Ticket ticket);
+    Car fetchStrategyMethod(Ticket ticket,List<ParkingLot> parkingLots);
 }
 
 class ParkingBoyStrategy implements ParkingStrategy {
@@ -49,7 +49,11 @@ class ParkingBoyStrategy implements ParkingStrategy {
     }
 
     @Override
-    public Car fetchStrategyMethod(Ticket ticket) {
-        return null;
+    public Car fetchStrategyMethod(Ticket ticket, List<ParkingLot> parkingLots) {
+        return parkingLots.stream()
+                .filter(parkingLot -> parkingLot.getNumber() == ticket.getParkingLotNumber())
+                .findFirst()
+                .orElse(null).fetch(ticket);
     }
+
 }
