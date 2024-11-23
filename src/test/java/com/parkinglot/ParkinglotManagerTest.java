@@ -120,4 +120,21 @@ public class ParkinglotManagerTest {
         assertEquals(ticket.getParkingLotNumber(), 1);
     }
 
+    @Test
+    void should_return_ticket_and_lotNumber2_when_first_parkingLot_is_full_given_a_car_use_strategy() {
+        //Given
+        ParkinglotManager parkinglotManager = new ParkinglotManager();
+        ParkingLot firstParkingLot = new ParkingLot(0, 1);
+        ParkingLot secondParkingLot = new ParkingLot(10, 2);
+        parkinglotManager.addParkingLot(firstParkingLot);
+        parkinglotManager.addParkingLot(secondParkingLot);
+        ParkingStrategy parkingBoyStrategy = new ParkingBoyStrategy();
+        //When
+        parkinglotManager.setParkingStrategy(parkingBoyStrategy);
+        Car car = new Car();
+        Ticket ticket = parkinglotManager.parkingStrategyMethod(car, parkinglotManager.getParkingLots());
+        //Then
+        assertEquals(ticket.getParkingLotNumber(), 2);
+    }
+
 }
